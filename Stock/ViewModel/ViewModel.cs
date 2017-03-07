@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 using static Stock.Constants;
 
@@ -32,8 +33,6 @@ namespace Stock
         {
             get { return stockTypeList; }
             set { stockTypeList = value;
-
-              
 
             }
         }
@@ -70,7 +69,7 @@ namespace Stock
             }
             catch (Exception ex)
             {
-
+                MessageBox.Show("Unable to add stock. Error:" + ex.Message.ToString());
             }
         }
         private String price;
