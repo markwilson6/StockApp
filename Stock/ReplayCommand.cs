@@ -23,8 +23,6 @@ namespace Stock
             }
         }
 
-        public event EventHandler CanExecuteChanged;
-
         public bool CanExecute(object parameter)
         {
             return this._canCommandExecute == null ? true : this._canCommandExecute(parameter);
@@ -35,7 +33,7 @@ namespace Stock
             this._executeCommand(parameter);
         }
 
-        public event EventHandler canExecuteChanged
+        public event EventHandler CanExecuteChanged
         {
             add { CommandManager.RequerySuggested += value; }
             remove { CommandManager.RequerySuggested -= value; }
