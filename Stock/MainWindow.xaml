@@ -1,0 +1,125 @@
+﻿<Window x:Class="Stock.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Stock"
+        mc:Ignorable="d"
+        Title="Fund Manager" Height="500" Width="900" MinWidth="700" MinHeight="630">
+    <Grid>        
+        <DockPanel LastChildFill="True">
+            <!--  Status bar -->
+            <StackPanel DockPanel.Dock="Bottom"  Height="30" Margin="4" >
+                
+            </StackPanel>
+            <!-- Add Stock Bar -->
+            <GroupBox DockPanel.Dock="Top" Header="Add Stock" Margin="4" VerticalAlignment="Center">
+               
+                <StackPanel Orientation="Horizontal" Margin="0,10,0,5">                      
+                        <Label   Height="25"  Content="Select Type:" />
+                    <ComboBox   MinWidth="100" Height="25"
+                      ItemsSource="{Binding StockTypeList}"
+                      SelectedItem="{Binding SelectedStockType,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}">
+                    </ComboBox>
+                    <Label   Height="25" Margin="20,0,0,0" Content="Price:"/>
+                    <TextBox MinWidth="100" Height="25" Text="{Binding Price,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" />
+                    <Label   Margin="20,0,0,0" Content="Quantity:"></Label>
+                    <TextBox  Text="{Binding Quantity,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" MinWidth="100" Height="25"  />
+                    <Button   Margin="30,0,0,0" MinWidth="80" Content="Add Stock" Height="25" Command="{Binding AddStockCommand}" IsEnabled="{Binding IsEnabled ,Mode=TwoWay}" ></Button>
+                </StackPanel>
+                
+            </GroupBox>
+            <!-- Summary Level info-->
+            <StackPanel DockPanel.Dock="Right" MinWidth="200" Margin="4">
+                
+                <GroupBox Header="Equity">
+                   
+                    <StackPanel>
+                        <Label Margin="0,0,0,0" Content="Total Number" />
+                        <Label Margin="0,-8,0,0" Content="{Binding StockManager.EquityTotalNumber,FallbackValue=0}"/>
+                        <Label Margin="0,0,0,0" Content="Total Stock Weight %"/>
+                        <Label Margin="0,-8,0,0" Content="{Binding StockManager.EquityTotalStockWeight,FallbackValue=0}"/>
+                        <Label Margin="0,0,0,0" Content="Total Market Value"/>
+                        <Label Margin="0,-8,0,0" Content="{Binding StockManager.EquityTotalMarketValue,FallbackValue=0}"/>
+                  </StackPanel>
+                </GroupBox>
+                <GroupBox Header="Bond">
+                    <StackPanel>
+                        <Label Margin="0,0,0,0" Content="Total Number" />
+                        <Label Margin="0,-8,0,0" Content="{Binding StockManager.BondTotalNumber,FallbackValue=0}"/>
+                        <Label Margin="0,0,0,0" Content="Total Stock Weight %"/>
+                        <Label Margin="0,-8,0,0" Content="{Binding StockManager.BondTotalStockWeight,FallbackValue=0}"/>
+                        <Label Margin="0,0,0,0" Content="Total Market Value"/>
+                        <Label Margin="0,-8,0,0" Content="{Binding StockManager.BondTotalMarketValue,FallbackValue=0}"/>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Header="All">
+                    <StackPanel>
+                        <Label Margin="0,0,0,0" Content="Total Number" />
+                        <Label Margin="0,-8,0,0" Content="{Binding StockManager.AllTotalNumber,FallbackValue=0}"/>
+                        <Label Margin="0,0,0,0" Content="Total Stock Weight %"/>
+                        <Label Margin="0,-8,0,0" Content="{Binding StockManager.AllTotalStockWeight,FallbackValue=0}"/>
+                        <Label Margin="0,0,0,0" Content="Total Market Value"/>
+                        <Label Margin="0,-8,0,0" Content="{Binding StockManager.AllTotalMarketValue,FallbackValue=0}"/>
+                    </StackPanel>
+                </GroupBox>
+
+            </StackPanel>
+            <!-- Stock info-->
+            <GroupBox MinWidth="100" Margin="4">               
+                <DataGrid
+                    Width="auto"
+                    Height="auto"
+                    AutoGenerateColumns="False"
+                    ItemsSource="{Binding StockManager.ListOfStockItems}"
+                    CanUserAddRows="False"
+                    CanUserDeleteRows="False"
+                    >
+                    <DataGrid.Background>
+                        <LinearGradientBrush EndPoint="0.504,1.5" StartPoint="0.504,0.03">
+                            <GradientStop Color="LightGray" Offset="0"/>
+                            <GradientStop Color="#FFFFFFFF" Offset="0.567"/>
+                        </LinearGradientBrush>
+                    </DataGrid.Background>
+                    <DataGrid.Columns>
+                        <!-- Stock Type -->
+                        <DataGridTextColumn Header="Stock Type" Width="15*" Binding="{Binding StockType}"/>
+
+                        <!-- Stock Name -->
+                        <DataGridTextColumn Header="Stock Name" Width="25*" Binding="{Binding StockName}" >
+                            <DataGridTextColumn.CellStyle>
+                                <Style TargetType="DataGridCell">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding TurnRed , Mode=OneWay}" Value="True" >
+                                            <Setter Property="Background" Value="Red"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </DataGridTextColumn.CellStyle>
+                        </DataGridTextColumn>
+
+                        <!-- Price -->
+                        <DataGridTextColumn Header="Price" Width="15*" Binding="{Binding Price}" />
+                        
+                        <!-- Quantity -->
+                        <DataGridTextColumn Header="Quantity" Width="15*" Binding="{Binding Quantity}" />
+
+                        <!-- Market Value-->
+                        <DataGridTextColumn Header="Market Value" Width="15*" Binding="{Binding MarketValue}" />
+
+                        <!-- Transation Cost-->
+                        <DataGridTextColumn Header="Transation Cost" Width="15*" Binding="{Binding TransactionCost}" />
+
+                        <!-- Stock Weight-->
+                        <DataGridTextColumn Header="Stock Weight %" Width="15*" Binding="{Binding StockWeight}" />
+
+                    </DataGrid.Columns>
+                    
+                </DataGrid>
+            </GroupBox>
+        </DockPanel>
+        
+        
+    </Grid>
+    
+</Window>
